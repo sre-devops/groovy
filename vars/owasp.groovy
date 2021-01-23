@@ -1,7 +1,8 @@
 def call() {
     try {
-        sh "echo work"
+        dependencyCheck additionalArguments: '--scan $WORKSPACE --format HTML --enableExperimental', odcInstallation: 'Dependency Checkers'
+        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
     } catch(Exception e) {
-        sh "echo does not work"
+        println('[ERROR] The dependencyCheck does not work')
     }
 }
