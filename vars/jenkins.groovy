@@ -10,7 +10,7 @@ def call() {
             ),
             parameters([
                     string(
-                            "defaultValue": "https://github.com/fhause5/petlinic-fe-original.git",
+                            "defaultValue": "",
                             "description": "Input Git url",
                             "name": "Git_url"
                     ),
@@ -34,13 +34,18 @@ def call() {
                         error("[ERROR] Git_url  can not be empty!")
                     git_url = params.Git_url
                     credentials = params.Credentials
-                    git credentialsId: '2fc867d7-eaa8-45ff-95e7-3262148e4f23', url: 'https://github.com/fhause5/petlinic-fe-original.git'
+
+                    println("[DEBUG] git_url: ${git_url}")
+                    println("[DEBUG] credentials: ${credentials}")
+
+                    git credentialsId: "${credentials}", url: "${git_url}"
                     sh 'npm install'
                     owasp()
                 }
                 stage('Aqua images security check') {
                     if (params.IMAGES.isEmpty())
                         error("[ERROR] IMAGES list can not be empty!")
+
                     images = params.IMAGES.replaceAll(" ", "").toLowerCase().split(',')
                     println("[DEBUG] images: ${images}")
                     aqua(images)
