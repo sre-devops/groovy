@@ -41,7 +41,6 @@ def call() {
                 stage('Aqua images security check') {
                     if (params.IMAGES.isEmpty())
                         error("[ERROR] IMAGES list can not be empty!")
-
                     images = params.IMAGES.replaceAll(" ", "").toLowerCase().split(',')
                     println("[DEBUG] images: ${images}")
                     aqua(images)
