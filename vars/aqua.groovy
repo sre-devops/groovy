@@ -1,8 +1,9 @@
-def call() {
+def call(images) {
     try {
-        docker.build("aqua-check:${BUILD_NUMBER}",'--no-cache -f Dockerfile .')
-        aquaMicroscanner imageName: item, notCompliesCmd: '', onDisallowed: 'ignore', outputFormat: 'html'
-        sh "docker rmi aqua-check:${BUILD_NUMBER}"
+        imageName = "aqua-check:${BUILD_NUMBER}"
+        docker.build(imageName,'--no-cache -f Dockerfile .')
+        aquaMicroscanner imageName: imageName, notCompliesCmd: '', onDisallowed: 'ignore', outputFormat: 'html'
+        sh "docker rmi ${imageName}"
     } catch(Exception e) {
         println('[ERROR] The Aqua Microscanner does not work')
     }
