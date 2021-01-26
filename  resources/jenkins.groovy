@@ -11,12 +11,12 @@ properties([
         ),
         parameters([
                 string(
-                        "defaultValue": "https://github.com/fhause5/petlinic-fe-original.git",
+                        "defaultValue": "",
                         "description": "Input Git url",
                         "name": "Git_url"
                 ),
                 string(
-                        "defaultValue": "2fc867d7-eaa8-45ff-95e7-3262148e4f23",
+                        "defaultValue": "",
                         "description": "Input Jenkins credentials",
                         "name": "Credentials"
                 )
@@ -29,11 +29,10 @@ timestamps {
                 if (params.Git_url.isEmpty())
                     error("[ERROR] Git_url  can not be empty!")
                 git credentialsId: "${params.Credentials}", url: "${Git_url}"
-                sh 'npm install'
                 owasp()
             }
             stage('Aqua images security check') {
-                aqua(images)
+                aqua()
             }
         }
     }
