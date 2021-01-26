@@ -22,7 +22,12 @@ def call() {
         ansiColor('xterm') {
             node('master') {
                 stage('Git CheckOut') {
-                    images = params.IMAGES
+                    if (params.IMAGES.isEmpty())
+                        error("[ERROR] IMAGES list can not be empty!")
+
+                    images = params.IMAGES.replaceAll(" ", "").toLowerCase().split(',')
+                    println("[DEBUG] images: ${images}")
+                    //images = ['nginx:latest']
                     aqua(images)
                 }
             }
