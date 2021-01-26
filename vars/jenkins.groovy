@@ -10,6 +10,16 @@ def call() {
             ),
             parameters([
                     string(
+                            "defaultValue": "https://github.com/fhause5/petlinic-fe-original.git",
+                            "description": "Input Git url",
+                            "name": "Git_url"
+                    ),
+                    string(
+                            "defaultValue": "2fc867d7-eaa8-45ff-95e7-3262148e4f23",
+                            "description": "Input Jenkins credentials",
+                            "name": "Credentials"
+                    ),
+                    string(
                             "defaultValue": "nginx:latest, alpine:latest",
                             "description": "Comma separated images. \nE.g.: nginx:latest, alpine:latest",
                             "name": "IMAGES"
@@ -19,7 +29,16 @@ def call() {
     timestamps {
         ansiColor('xterm') {
             node('master') {
-                stage('Aqua images check') {
+                stage('OWASP security check') {
+                    if (params.Git_url.isEmpty())
+                        error("[ERROR] Git_url  can not be empty!")
+                    git_url = params.Git_url
+                    credentials = params.Credentials
+                    git credentialsId: '2fc867d7-eaa8-45ff-95e7-3262148e4f23', url: 'https://github.com/fhause5/petlinic-fe-original.git'
+                    sh 'npm install'
+                    owasp()
+                }
+                stage('Aqua images security check') {
                     if (params.IMAGES.isEmpty())
                         error("[ERROR] IMAGES list can not be empty!")
 
