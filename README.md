@@ -4,5 +4,7 @@
 
 Jenkins plugins:
 
-* OWASP
-* 
+* AnsiColor
+* OWASP 5.0.1
+* Dependency Checkers add to Global Tool Configuration
+* Aqua MicroScanner (ADD to Global Tool Configuration Aqua MicroScanner token)
