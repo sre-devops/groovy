@@ -1,6 +1,4 @@
-
 def call() {
-
     properties([
             buildDiscarder(
                     logRotator(
@@ -13,7 +11,7 @@ def call() {
             parameters([
                     string(
                             "defaultValue": "nginx:latest, alpine:latest",
-                            "description": "Comma separated user's emails. \nE.g.: ivan_ivanov@epam.com, john_doe@epam.com",
+                            "description": "Comma separated images. \nE.g.: nginx:latest, alpine:latest",
                             "name": "IMAGES"
                     )
             ])
@@ -21,17 +19,15 @@ def call() {
     timestamps {
         ansiColor('xterm') {
             node('master') {
-                stage('Git CheckOut') {
+                stage('Aqua images check') {
                     if (params.IMAGES.isEmpty())
                         error("[ERROR] IMAGES list can not be empty!")
 
                     images = params.IMAGES.replaceAll(" ", "").toLowerCase().split(',')
                     println("[DEBUG] images: ${images}")
-                    //images = ['nginx:latest']
                     aqua(images)
                 }
             }
         }
     }
-
 }
